@@ -21,6 +21,9 @@ class DollarTest {
     void testEqualityDollar(){
         assertEquals(new Dollar(5), new Dollar(5));
         assertNotEquals(new Dollar(5), new Dollar(8));
+
+        // in case of amount == money.amount, it's error.
+        assertNotEquals(new Dollar(5), new Franc(8));
     }
 
     @Test
