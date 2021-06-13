@@ -15,11 +15,11 @@ class DollarTest {
 
     @Test
     void testEqualityDollar(){
-        assertEquals(new Dollar(5), new Dollar(5));
-        assertNotEquals(new Dollar(5), new Dollar(8));
+        assertEquals(Money.dollar(5), Money.dollar(5));
+        assertNotEquals(Money.dollar(5), Money.dollar(8));
 
         // in case of amount == money.amount, it's error.
-        assertNotEquals(new Dollar(5), new Franc(8));
+        assertNotEquals(Money.dollar(5), Money.franc(8));
     }
 
     @Test
@@ -31,7 +31,13 @@ class DollarTest {
 
     @Test
     void testEqualityFranc(){
-        assertEquals(new Franc(5), new Franc(5));
-        assertNotEquals(new Franc(5), new Franc(8));
+        assertEquals(Money.franc(5), Money.franc(5));
+        assertNotEquals(Money.franc(5), Money.franc(8));
+    }
+
+    @Test
+    void testCurrency(){
+        assertEquals("USD", Money.dollar(11).currency);
+        assertEquals("CHF", Money.franc(11).currency);
     }
 }
