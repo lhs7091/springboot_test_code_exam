@@ -8,13 +8,9 @@ class DollarTest {
 
     @Test
     void testMultiplicationDollar(){
-        Dollar five = new Dollar(5);
-
-        Dollar product = five.times(2);
-        assertEquals(new Dollar(10), product);
-
-        product = five.times(3);
-        assertEquals(new Dollar(15), product);
+        Money five = Money.dollar(5);
+        assertEquals(Money.dollar(10), five.times(2));
+        assertEquals(Money.dollar(15), five.times(3));
     }
 
     @Test
@@ -28,13 +24,9 @@ class DollarTest {
 
     @Test
     void testMultiplicationFranc(){
-        Franc five = new Franc(5);
-
-        Franc product = five.times(2);
-        assertEquals(new Franc(10), product);
-
-        product = five.times(3);
-        assertEquals(new Franc(15), product);
+        Money five = Money.franc(5);
+        assertEquals(Money.franc(10), five.times(2));
+        assertEquals(Money.franc(15), five.times(3));
     }
 
     @Test
