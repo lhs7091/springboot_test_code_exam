@@ -7,6 +7,7 @@ import org.opentest4j.AssertionFailedError;
 import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 class IndexControllerTest {
 
@@ -46,6 +47,18 @@ class IndexControllerTest {
                 Thread.sleep(1000);
             });
         });
+    }
 
+    /**
+     * 가정(assumption)API를 활용하여 의도한 결과가 아닌 경우 해당 테스트를 중단
+     */
+    @Test
+    void testAssumptionTrue1(){
+        assumeTrue("test".equalsIgnoreCase(System.getenv("test")));
+    }
+
+    @Test
+    void testAssumptionTrue2(){
+        assumeTrue("test".equalsIgnoreCase("test"));
     }
 }
