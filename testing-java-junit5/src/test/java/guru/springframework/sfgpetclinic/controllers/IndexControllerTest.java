@@ -2,6 +2,7 @@ package guru.springframework.sfgpetclinic.controllers;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.*;
 import org.opentest4j.AssertionFailedError;
 
 import java.time.Duration;
@@ -61,4 +62,41 @@ class IndexControllerTest {
     void testAssumptionTrue2(){
         assumeTrue("test".equalsIgnoreCase("test"));
     }
+
+    @EnabledOnOs(OS.MAC)
+    @Test
+    void testMeOnMacOs(){
+
+    }
+
+    @EnabledOnOs(OS.WINDOWS)
+    @Test
+    void testMeOnWindowOs(){
+
+    }
+
+    @EnabledOnJre(JRE.JAVA_8)
+    @Test
+    void testMeOnJava8(){
+
+    }
+
+    @EnabledOnJre(JRE.JAVA_11)
+    @Test
+    void testMeOnJava11(){
+
+    }
+
+    @EnabledIfEnvironmentVariable(named = "USER", matches = "leeheesoo")
+    @Test
+    void testIfUserNameMatch(){
+
+    }
+
+    @EnabledIfEnvironmentVariable(named = "USER", matches = "test")
+    @Test
+    void testIfUserNameNotMatch(){
+
+    }
+
 }
