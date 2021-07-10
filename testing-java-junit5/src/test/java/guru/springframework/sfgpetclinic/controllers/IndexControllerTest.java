@@ -1,5 +1,6 @@
 package guru.springframework.sfgpetclinic.controllers;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.*;
@@ -7,6 +8,7 @@ import org.opentest4j.AssertionFailedError;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
@@ -23,6 +25,8 @@ class IndexControllerTest {
     void index() {
         assertEquals("index", controller.index());
         assertNotEquals("indexed", controller.index());
+
+        assertThat(controller.index()).isEqualTo("index");
     }
 
     @Test
