@@ -23,6 +23,15 @@ class SpecialitySDJpaServiceTest {
     SpecialitySDJpaService specialitySDJpaService;
 
     @Test
+    void testDeleteByObject(){
+        Speciality speciality = new Speciality();
+        specialitySDJpaService.delete(speciality);
+
+        // can use flexible argument matching, for example any expression via the any()
+        verify(specialtyRepository).delete(any(Speciality.class));
+    }
+
+    @Test
     void findByIdTest(){
         Speciality speciality = new Speciality();
 
@@ -37,7 +46,8 @@ class SpecialitySDJpaServiceTest {
 
         // verify that findbyid method is called one time.
         // verify: to check methods were called with given arguments
-        verify(specialtyRepository).findById(1L);
+        // can use flexible argument matching, for example any expression via the any()
+        verify(specialtyRepository).findById(anyLong());
     }
 
     @Test
