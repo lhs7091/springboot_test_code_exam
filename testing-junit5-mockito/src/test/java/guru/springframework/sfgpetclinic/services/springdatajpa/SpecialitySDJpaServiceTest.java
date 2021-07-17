@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,6 +48,19 @@ class SpecialitySDJpaServiceTest {
         // verify that findbyid method is called one time.
         // verify: to check methods were called with given arguments
         // can use flexible argument matching, for example any expression via the any()
+        verify(specialtyRepository).findById(anyLong());
+    }
+
+    @Test
+    void findByIdBddTest(){
+        Speciality speciality = new Speciality();
+
+        given(specialtyRepository.findById(1L)).willReturn(Optional.of(speciality));
+
+        Speciality findSpeciality = specialitySDJpaService.findById(1L);
+
+        assertThat(findSpeciality).isNotNull();
+
         verify(specialtyRepository).findById(anyLong());
     }
 
