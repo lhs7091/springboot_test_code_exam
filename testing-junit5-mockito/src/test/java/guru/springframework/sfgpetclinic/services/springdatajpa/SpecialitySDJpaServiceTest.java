@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -20,6 +21,24 @@ class SpecialitySDJpaServiceTest {
 
     @InjectMocks
     SpecialitySDJpaService specialitySDJpaService;
+
+    @Test
+    void findByIdTest(){
+        Speciality speciality = new Speciality();
+
+        // when repository.findbyId is called, return optional type
+        when(specialtyRepository.findById(1L)).thenReturn(Optional.of(speciality));
+
+        // actually method call
+        Speciality findSpecialty = specialitySDJpaService.findById(1L);
+
+        // the result is not null, have data.
+        assertThat(findSpecialty).isNotNull();
+
+        // verify that findbyid method is called one time.
+        // verify: to check methods were called with given arguments
+        verify(specialtyRepository).findById(1L);
+    }
 
     @Test
     void deleteById() {
