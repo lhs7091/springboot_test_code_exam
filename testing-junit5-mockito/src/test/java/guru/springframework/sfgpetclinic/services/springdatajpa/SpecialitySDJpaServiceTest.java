@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class SpecialitySDJpaServiceTest {
 
-    @Mock
+    @Mock(lenient = true)
     SpecialtyRepository specialtyRepository;
 
     @InjectMocks
@@ -144,6 +144,46 @@ class SpecialitySDJpaServiceTest {
         assertThrows(RuntimeException.class, ()->specialitySDJpaService.delete(new Speciality()));
 
         then(specialtyRepository).should().delete(any(Speciality.class));
+    }
+
+    @Test
+    void testSaveLambda(){
+        // given
+        final String match_me = "match_me";
+        Speciality speciality = new Speciality();
+        speciality.setDescription(match_me);
+
+        Speciality saveSpeciality = new Speciality();
+        saveSpeciality.setId(1L);
+
+        // need mock to only return on match MATCH_ME string
+        given(specialtyRepository.save(argThat(argument->argument.getDescription().equals(match_me)))).willReturn(saveSpeciality);
+
+        // when
+        Speciality returnSpeciality = specialitySDJpaService.save(speciality);
+
+        // then
+        assertThat(returnSpeciality.getId()).isEqualTo(1L);
+
+    }
+
+    @Test
+    void testSaveLambdaNoMatch(){
+        // given
+        final String match_me = "match_me";
+        Speciality speciality = new Speciality();
+        speciality.setDescription("Not a match");
+
+        Speciality saveSpeciality = new Speciality();
+        saveSpeciality.setId(1L);
+
+        given(specialtyRepository.save(argThat(argument -> argument.getDescription().equals(match_me)))).willReturn(saveSpeciality);
+
+        // when
+        Speciality returnSpeciality = specialitySDJpaService.save(speciality);
+
+        // then
+        assertNull(returnSpeciality);
     }
 
 }
