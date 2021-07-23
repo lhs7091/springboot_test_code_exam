@@ -16,6 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OwnerControllerTest {
@@ -26,6 +27,9 @@ class OwnerControllerTest {
     @Mock(lenient = true)
     OwnerService ownerService;
 
+    @Mock
+    Model model;
+
     @InjectMocks
     OwnerController ownerController;
 
@@ -35,7 +39,7 @@ class OwnerControllerTest {
     @Captor
     ArgumentCaptor<String> stringArgumentCaptor;
 
-    //@BeforeEach
+    @BeforeEach
     void setUp(){
         given(ownerService.findAllByLastNameLike(stringArgumentCaptor.capture())).willAnswer(invocation->{
             // find last name of wildcard
@@ -112,11 +116,16 @@ class OwnerControllerTest {
     void processFindFormWildcardMultiOwners(){
         // given
         Owner owner = new Owner(1L, "testA", "MultipleOwners");
+        InOrder inOrder = inOrder(ownerService, model);
         // when
-        String viewName = ownerController.processFindForm(owner, bindingResult, Mockito.mock(Model.class));
+        String viewName = ownerController.processFindForm(owner, bindingResult, model);
         // then
         assertThat("%MultipleOwners%").isEqualToIgnoringCase(stringArgumentCaptor.getValue());
         assertThat("owners/ownersList").isEqualToIgnoringCase(viewName);
+        // inorder asserts
+        inOrder.verify(ownerService).findAllByLastNameLike(anyString());
+        inOrder.verify(model).addAttribute(anyString(), anyList());
+
     }
 
     @Test
